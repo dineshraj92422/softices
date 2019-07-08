@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_PASSWORD = "user_password";
     private static final String COLUMN_USER_GENDER = "user_gender";
     public static final String TABLE_USER_COLUMN_USER_PHOTO = "user_photo";
+
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
@@ -170,6 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put( COLUMN_USER_EMAIL, user.getEmail() );
             values.put( COLUMN_USER_PASSWORD, user.getPassword() );
             values.put( COLUMN_USER_GENDER, user.getGender() );
+
 
 
             // updating row

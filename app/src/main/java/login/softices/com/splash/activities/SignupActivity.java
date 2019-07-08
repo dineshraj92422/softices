@@ -1,10 +1,12 @@
 package login.softices.com.splash.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ public class SignupActivity extends AppCompatActivity {
     private EditText edtFirstName, edtLastName;
     private RadioGroup radioButton;
     private DatabaseHelper databasehelper;
+    private ImageView ivphoto;
+    private Bitmap photoBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         edtLastName = findViewById( R.id.edt_lastname );
         edtEmail = findViewById( R.id.edt_email );
         edtPassword = findViewById( R.id.edt_password );
+        ivphoto=findViewById(R.id.iv_Photo);
         edtConformPassword = findViewById( R.id.edt_conformpassword );
         databasehelper = new DatabaseHelper( this );
        edtFirstName.setText( "Dineshsingh" );
@@ -70,6 +75,7 @@ public class SignupActivity extends AppCompatActivity {
                     user.setFirst_name( firstname );
                     user.setLast_name( lastname );
                     user.setGender( " " );
+                    user.setPhoto(photoBitmap);
                     boolean isUserCreated = databasehelper.addUser( user );
                     if (isUserCreated) {
                         Intent intent = new Intent( SignupActivity.this, LoginActivity.class );

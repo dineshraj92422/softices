@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText edtFirstName, edtLastName;
     private DatabaseHelper databaseHelper;
     private ImageView ivphoto;
+    private Bitmap photoBitmap;
     private Uri selectedImage;
     private String TAG = "ProfileActivity";
     private final int PICK_IMAGE_CAMERA = 0, PICK_IMAGE_GALLERY = 1, REQUEST_CODE = 2;
@@ -54,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         edtFirstName = findViewById( R.id.firstname );
         edtLastName = findViewById( R.id.lastname );
         edtEmail = findViewById( R.id.email );
+        ivphoto =findViewById(R.id.iv_photo);
         databaseHelper = new DatabaseHelper( this );
 
         setDefaultData();
@@ -76,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
                     user.setFirst_name( firstname );
                     user.setLast_name( lastname );
                     user.setGender( "" );
-
+                    user.setPhoto(photoBitmap);
                     if (databaseHelper.updateUser( user )) {
                         Toast.makeText( ProfileActivity.this, "Data update", Toast.LENGTH_SHORT ).show();
                         Intent intent = new Intent( ProfileActivity.this, DashboardActivity.class );

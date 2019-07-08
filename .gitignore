@@ -68,3 +68,6 @@ fastlane/readme.md
 gradle/
 gradlew
 gradlew.bat
+
+app/src/androidTest/
+app/src/test/

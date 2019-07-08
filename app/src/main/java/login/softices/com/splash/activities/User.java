@@ -1,6 +1,7 @@
 package login.softices.com.splash.activities;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 public class User {
 
