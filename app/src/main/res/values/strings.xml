@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Softices</string>
+    <string name="f_name">First Name</string>
+    <string name="l_name">Surname</string>
+    <string name="p_number">Phone Number</string>
+    <string name="email_id">Email Id</string>
+    <string name="password">Password</string>
+    <string name="c_password">Confirm Password</string>
+    <string name="a_account">If you already have account then login</string>
+    <string name="s_otp">Send OTP</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="my_dashboard">My Dasboard</string>
+    <string name="log_out">Log Out</string>
+    <string name="title_activity_dashboard">My Dashboard</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Softices Consultancy</string>
+    <string name="nav_header_subtitle">sofices.consultancy@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="gender">Gender</string>
+    <string name="hello">Hello,</string>
+    <string name="text_accounts">All Accounts</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
