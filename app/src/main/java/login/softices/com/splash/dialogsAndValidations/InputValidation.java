@@ -5,13 +5,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.ConnectivityManager;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 public class InputValidation {
@@ -19,11 +19,11 @@ public class InputValidation {
     private static ProgressDialog progressDialog;
 
     //---------is connected to network
-    public static boolean isNetworkConnected(Context context) {
+   /* public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
-    }
+    }*/
 
     //-----------------alert for error and finish activity
     public static void displayAlertAndFinish(final Context context, String title, String message) {
