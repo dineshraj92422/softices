@@ -6,16 +6,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import login.softices.com.splash.utility.Utility;
 import login.softices.com.splash.activities.User;
-import login.softices.com.splash.utils.Utility;
-
-import static android.content.ContentValues.TAG;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -33,8 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
     private static final String COLUMN_USER_GENDER = "user_gender";
-    public static final String TABLE_USER_COLUMN_USER_PHOTO = "user_photo";
-
+    public static final String COLUMN_USER_PHOTO = "user_photo";
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
@@ -43,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_LAST_NAME + " TEXT,"
             + COLUMN_USER_PASSWORD + " TEXT,"
             + COLUMN_USER_GENDER + " TEXT,"
-            + TABLE_USER_COLUMN_USER_PHOTO + " blob"
+            + COLUMN_USER_PHOTO + " blob"
             + ")";
 
     // drop table sql query
@@ -85,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put( TABLE_USER_COLUMN_USER_PHOTO,Utility.getBytes(user.getPhoto()));
+            values.put( COLUMN_USER_PHOTO, Utility.getBytes( user.getPhoto()));
             values.put( COLUMN_USER_FIRST_NAME, user.getFirst_name() );
             values.put( COLUMN_USER_LAST_NAME, user.getLast_name() );
             values.put( COLUMN_USER_EMAIL, user.getEmail() );
@@ -166,13 +162,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put( TABLE_USER_COLUMN_USER_PHOTO, Utility.getBytes(user.getPhoto()));
+            values.put( COLUMN_USER_PHOTO,Utility.getBytes(user.getPhoto()) );
             values.put( COLUMN_USER_FIRST_NAME, user.getFirst_name() );
             values.put( COLUMN_USER_LAST_NAME, user.getLast_name() );
             values.put( COLUMN_USER_EMAIL, user.getEmail() );
             values.put( COLUMN_USER_PASSWORD, user.getPassword() );
             values.put( COLUMN_USER_GENDER, user.getGender() );
-
 
 
             // updating row
@@ -189,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<User> getcurrentUser(String email) {
         // array of columns to fetch
         String[] columns = {
-                TABLE_USER_COLUMN_USER_PHOTO,
+                COLUMN_USER_PHOTO,
                 COLUMN_USER_EMAIL,
                 COLUMN_USER_FIRST_NAME,
                 COLUMN_USER_LAST_NAME,
@@ -230,6 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setLast_name( cursor.getString( cursor.getColumnIndex( COLUMN_USER_LAST_NAME ) ) );
                 user.setGender( cursor.getString( cursor.getColumnIndex( COLUMN_USER_GENDER ) ) );
                 user.setPassword( cursor.getString( cursor.getColumnIndex( COLUMN_USER_PASSWORD ) ) );
+                user.setPhoto(Utility.getPhoto(cursor.getBlob(cursor.getColumnIndex(COLUMN_USER_PHOTO))));
                 // Adding user record to list
                 userList.add( user );
             } while (cursor.moveToNext());

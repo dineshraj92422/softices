@@ -7,24 +7,19 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +29,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import login.softices.com.splash.R;
 import login.softices.com.splash.database.DatabaseHelper;
 import login.softices.com.splash.dialogsAndValidations.InputValidation;
@@ -44,72 +43,75 @@ public class ProfileActivity extends AppCompatActivity {
     EditText edtFirstName, edtLastName;
     private DatabaseHelper databaseHelper;
     private ImageView ivphoto;
-    private Bitmap photoBitmap;
     private Uri selectedImage;
+    private Bitmap photoBitmap;
+    private User user;
     private String TAG = "ProfileActivity";
     private final int PICK_IMAGE_CAMERA = 0, PICK_IMAGE_GALLERY = 1, REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_profile );
-        edtFirstName = findViewById( R.id.firstname );
-        edtLastName = findViewById( R.id.lastname );
-        edtEmail = findViewById( R.id.email );
-        ivphoto =findViewById(R.id.iv_photo);
-        databaseHelper = new DatabaseHelper( this );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        edtFirstName = findViewById(R.id.firstname);
+        edtLastName = findViewById(R.id.lastname);
+        edtEmail = findViewById(R.id.email);
+        databaseHelper = new DatabaseHelper(this);
+        ivphoto = findViewById(R.id.iv_photo);
 
         setDefaultData();
 
-        findViewById( R.id.btn_update ).setOnClickListener( new View.OnClickListener() {
+        findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = edtEmail.getText().toString();
                 String firstname = edtFirstName.getText().toString();
                 String lastname = edtLastName.getText().toString();
-                if (!isValidFirstName( firstname )) {
-                    Toast.makeText( ProfileActivity.this, "Please Enter correct name", Toast.LENGTH_SHORT ).show();
-                } else if (!isValidLastName( lastname )) {
-                    Toast.makeText( ProfileActivity.this, "Please Enter correct surname", Toast.LENGTH_SHORT ).show();
-                } else if (!isValidEmail( email )) {
-                    Toast.makeText( ProfileActivity.this, "Please enter Valid email", Toast.LENGTH_SHORT ).show();
+                photoBitmap = ((BitmapDrawable) ivphoto.getDrawable()).getBitmap();
+                if (!isValidFirstName(firstname)) {
+                    Toast.makeText(ProfileActivity.this, "Please Enter correct name", Toast.LENGTH_SHORT).show();
+                } else if (!isValidLastName(lastname)) {
+                    Toast.makeText(ProfileActivity.this, "Please Enter correct surname", Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(ProfileActivity.this, "Please enter Valid email", Toast.LENGTH_SHORT).show();
                 } else {
                     User user = new User();
-                    user.setEmail( email );
-                    user.setFirst_name( firstname );
-                    user.setLast_name( lastname );
-                    user.setGender( "" );
+                    user.setEmail(email);
+                    user.setFirst_name(firstname);
+                    user.setLast_name(lastname);
+                    user.setGender("");
                     user.setPhoto(photoBitmap);
-                    if (databaseHelper.updateUser( user )) {
-                        Toast.makeText( ProfileActivity.this, "Data update", Toast.LENGTH_SHORT ).show();
-                        Intent intent = new Intent( ProfileActivity.this, DashboardActivity.class );
-                        startActivityForResult( intent, 0 );
+
+                    if (databaseHelper.updateUser(user)) {
+                        Toast.makeText(ProfileActivity.this, "Data update", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ProfileActivity.this, DashboardActivity.class);
+                        startActivityForResult(intent, 0);
                     } else {
-                        Toast.makeText( ProfileActivity.this, "Data not upadte", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(ProfileActivity.this, "Data not upadte", Toast.LENGTH_SHORT).show();
 
                     }
                 }
             }
-        } );
+        });
 
-        ivphoto=findViewById( R.id.iv_photo );
-        ivphoto.setOnClickListener( new View.OnClickListener() {
+        ivphoto = findViewById(R.id.iv_photo);
+        ivphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onOpenImage();
             }
-        } );
+        });
 
     }
 
     private void onOpenImage() {
-        if (Build.VERSION.SDK_INT<23){
+        if (Build.VERSION.SDK_INT < 23) {
             selectImage();
-        }else {
-            if(ContextCompat.checkSelfPermission( this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission( this,Manifest.permission.CAMERA )== PackageManager.PERMISSION_GRANTED){
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 selectImage();
-            }else {
-                ActivityCompat.requestPermissions( this,new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_CODE );
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
             }
         }
     }
@@ -156,8 +158,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
                     dialog.dismiss();
-                    Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
-                    selectedImage = Uri.fromFile(new File( Environment.getExternalStorageDirectory(),
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
                             "image_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, selectedImage);
                     startActivityForResult(intent, PICK_IMAGE_CAMERA);
@@ -219,25 +221,22 @@ public class ProfileActivity extends AppCompatActivity {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-                Glide.with(this)
-                        .load(out.toByteArray())
-                        .asBitmap()
-                        .into(ivphoto);
-            } else {
+                ivphoto.setImageBitmap(bitmap);           } else {
                 InputValidation.t(this, "Unable to select image");
             }
         } catch (Exception e) {
             Log.e(TAG, "setImageData" + e);
         }
     }
-    private void setDefaultData() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
-        String email = sharedPreferences.getString( "email", "" );
-        List<User> user = databaseHelper.getcurrentUser( email );
 
-        edtFirstName.setText( user.get( 0 ).getFirst_name() );
-        edtLastName.setText( user.get( 0 ).getLast_name() );
-        edtEmail.setText( user.get( 0 ).getEmail() );
+    private void setDefaultData() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String email = sharedPreferences.getString("email", "");
+        List<User> user = databaseHelper.getcurrentUser(email);
+        ivphoto.setImageBitmap(user.get(0).getPhoto());
+        edtFirstName.setText(user.get(0).getFirst_name());
+        edtLastName.setText(user.get(0).getLast_name());
+        edtEmail.setText(user.get(0).getEmail());
     }
 
     private boolean isValidLastName(String lname) {
@@ -258,8 +257,8 @@ public class ProfileActivity extends AppCompatActivity {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        Pattern pattern = Pattern.compile( EMAIL_PATTERN );
-        Matcher matcher = pattern.matcher( email );
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 

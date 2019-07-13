@@ -13,13 +13,12 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-
 public class InputValidation {
     private Context context;
     private static ProgressDialog progressDialog;
 
-    //---------is connected to network
-   /* public static boolean isNetworkConnected(Context context) {
+  /*  //---------is connected to network
+    public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;

@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import login.softices.com.splash.R;
 
 public class BatteryLevelActivity extends AppCompatActivity {

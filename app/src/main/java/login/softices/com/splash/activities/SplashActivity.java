@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import login.softices.com.splash.R;
 
 public class SplashActivity extends AppCompatActivity {

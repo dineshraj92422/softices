@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import login.softices.com.splash.R;
 import login.softices.com.splash.activities.User;
 import login.softices.com.splash.database.DatabaseHelper;

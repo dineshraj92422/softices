@@ -3,7 +3,6 @@ package login.softices.com.splash.activities;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import login.softices.com.splash.R;
 
 public class ForgetActivity extends AppCompatActivity {

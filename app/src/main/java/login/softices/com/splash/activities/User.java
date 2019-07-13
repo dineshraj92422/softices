@@ -1,7 +1,6 @@
 package login.softices.com.splash.activities;
 
 import android.graphics.Bitmap;
-import android.widget.ImageView;
 
 public class User {
 
@@ -52,12 +51,11 @@ public class User {
         this.gender = gender;
     }
 
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
 
     public Bitmap getPhoto() {
         return photo;
     }
-
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;}
-
 }
